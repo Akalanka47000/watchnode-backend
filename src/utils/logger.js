@@ -14,14 +14,6 @@ const logger = winston.createLogger({
   format: winston.format.combine(stacktrace(), winston.format.timestamp(), winston.format.json(), winston.format.prettyPrint()),
   transports: [
     new winston.transports.Console(),
-    new winston.transports.File({
-      filename: `logs/error/${new Date().toISOString().slice(0, 10)}.log`,
-      level: 'error',
-    }),
-    new winston.transports.File({
-      filename: `logs/info/${new Date().toISOString().slice(0, 10)}.log`,
-      level: 'info',
-    }),
   ],
 })
 
