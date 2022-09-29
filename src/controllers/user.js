@@ -1,7 +1,6 @@
 import asyncHandler from '../middleware/async'
-import { addNewUser, changePasswordService } from '../services/user'
+import { addNewUser, getUsers, getUserByID, updateUserdetails, deleteUserById, changePasswordService } from '../services/user'
 import { makeResponse } from '../utils/response'
-import { getUsers, getUserByID, updateUserdetails } from '../services/user'
 
 export const create = asyncHandler(async (req, res) => {
   const result = await addNewUser(req.body)
@@ -45,6 +44,18 @@ export const update = asyncHandler(async (req, res) => {
     status: 200,
     data: result,
     message: 'User updated successfully',
+  })
+})
+
+export const deleteUser = asyncHandler(async (req, res) => {
+  const result = await deleteUserById(req.params.id, req.user)
+  if (!result) return makeResponse({ res, status: 500, message: 'Failed to delete user' })
+  if (result.status) return makeResponse({ res, ...result })
+  return makeResponse({
+    res,
+    status: 200,
+    data: result,
+    message: 'User deleted successfully',
   })
 })
 

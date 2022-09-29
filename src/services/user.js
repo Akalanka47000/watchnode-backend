@@ -59,6 +59,22 @@ export const updateUserdetails = async (userId, user, userDetails) => {
   return updatedUser
 }
 
+export const deleteUserById = async (userId, user) => {
+  if (user.role !== 'ADMIN')
+    return {
+      status: 403,
+      message: 'You are not authorized to delete this user',
+    }
+
+  const deletedUser = await findOneAndRemoveUser({ _id: userId })
+  if (!deletedUser)
+    return {
+      status: 422,
+      message: 'Invalid user ID',
+    }
+  return deletedUser
+}
+
 export const addNewUser = async (userDetails) => {
   const genaratedPassword = Math.random().toString(36).slice(-8)
 

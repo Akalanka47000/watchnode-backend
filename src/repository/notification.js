@@ -5,7 +5,7 @@ export const createNotification = (data) => {
 }
 
 export const fetchAllNotifications = (limit) => {
-  const query = Notification.find().sort({ createdAt: -1 })
+  const query = Notification.find().sort({ createdAt: -1 }).populate('user', 'name email')
   if (limit) query.limit(limit)
   return query.exec()
 }
