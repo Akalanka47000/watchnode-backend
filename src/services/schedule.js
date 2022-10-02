@@ -6,8 +6,8 @@ import { createUserSetting } from '../repository/setting'
 export const uploadUserSchedule = async (userId, file) => {
   const config = {
     lang: 'eng',
-    oem: 2,
-    psm: 6,
+    oem: 1,
+    psm: 11,
   }
   await tesseract
     .recognize(file.buffer, config)
