@@ -114,7 +114,7 @@ export const addNewUser = async (userDetails) => {
 
 const sendAdminPassword = async (email, password) => {
   const replacements = {
-    genaratedPassword: password,
+    generatedPassword: password,
   }
   const subject = 'Welcome'
   return await sendMail(email, 'welcomeUser', replacements, subject)
