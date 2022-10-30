@@ -8,6 +8,7 @@ export const register = asyncHandler(async (req, res) => {
   if (result.status) return makeResponse({ res, ...result })
   return makeResponse({
     res,
+    data: {},
     message: 'Registration Successfull. Please check your email to verify your account.',
   })
 })

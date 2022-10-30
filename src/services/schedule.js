@@ -33,7 +33,7 @@ export const uploadUserSchedule = async (userId, file) => {
       return [...acc, ...eventsForDay]
     }, []),
   }
-  const schedule = await createSchedule({ user: userId, ...data })
+  const schedule = await createSchedule({ user: userId, name: `Schedule-${Date.now()}`, ...data })
   createUserSetting({
     schedule: schedule._id,
   })

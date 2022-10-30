@@ -7,6 +7,9 @@ const ScheduleSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    name: {
+      type: String,
+    },
     events: [
       {
         _id: false,
