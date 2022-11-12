@@ -1,18 +1,13 @@
-import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 import { createUserSetting } from '../repository/setting'
 import { createUser, getOneUser, findOneAndUpdateUser } from '../repository/user'
+import { encrypt, compare } from '../utils/bcrypt'
 import { sendMail } from './email'
 
 export const authRegister = async ({ name, email, password }) => {
   const user = await getOneUser({ email })
   if (user) return { status: 400, message: 'User already exists' }
-  const encryptedPassword = await new Promise((resolve, reject) => {
-    bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUNDS), (err, hash) => {
-      if (err) reject(err)
-      resolve(hash)
-    })
-  })
+  const encryptedPassword = await encrypt(password)
   const verification_code = uuidv4()
   const registeredUser = await createUser({
     name,
@@ -27,12 +22,7 @@ export const authRegister = async ({ name, email, password }) => {
 export const authLogin = async ({ email, password }) => {
   const user = await getOneUser({ email }, true)
   if (!user) return false
-  const isPasswordMatch = await new Promise((resolve, reject) => {
-    bcrypt.compare(password, user.password, (err, hash) => {
-      if (err) reject(err)
-      resolve(hash)
-    })
-  })
+  const isPasswordMatch = await compare(password, user.password)
   if (!isPasswordMatch) return false
   delete user.password
   return user
@@ -102,12 +92,7 @@ export const resetPasswordFromEmail = async (password, verificationCode) => {
       message: 'Click the link we have sent to your email and try again.',
     }
 
-  const encryptedPassword = await new Promise((resolve, reject) => {
-    bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUNDS), (err, hash) => {
-      if (err) reject(err)
-      resolve(hash)
-    })
-  })
+  const encryptedPassword = await encrypt(password)
   const updatedUser = await findOneAndUpdateUser({ email: user.email }, { password: encryptedPassword, is_verified: true })
   return updatedUser
 }

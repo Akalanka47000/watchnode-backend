@@ -1,14 +1,14 @@
 import { createSchedule, deleteScheduleById, fetchScheduleById, fetchUserSchedules, updateScheduleById } from '../repository/schedule'
-import tesseract from 'node-tesseract-ocr'
+// import tesseract from 'node-tesseract-ocr'
 import moment from 'moment'
 import { createUserSetting } from '../repository/setting'
 
 export const uploadUserSchedule = async (userId, file) => {
-  const config = {
-    lang: 'eng',
-    oem: 1,
-    psm: 11,
-  }
+  // const config = {
+  //   lang: 'eng',
+  //   oem: 1,
+  //   psm: 11,
+  // }
   // await tesseract
   //   .recognize(file.buffer, config)
   //   .then((text) => {

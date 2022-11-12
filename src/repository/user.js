@@ -1,7 +1,7 @@
 import User from '../models/user'
 
 export const createUser = async (user) => {
-  const userMade = (await new User(user).save()).toObject()
+  const userMade = await User.create(user)
   delete userMade.password
   return userMade
 }

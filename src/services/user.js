@@ -1,5 +1,5 @@
-import bcrypt from 'bcrypt'
 import { findOneAndUpdateUser, findOneAndRemoveUser, getOneUser, createUser, getAllUsers } from '../repository/user'
+import { compare, encrypt } from '../utils/bcrypt'
 import { sendMail } from './email'
 
 export const getUsers = async (query) => {
@@ -19,20 +19,10 @@ export const getUserByID = async (id) => {
 export const changePasswordService = async (user, oldPassword, newPassword) => {
   user = await getOneUser({ _id: user._id }, true) // because req.user doesn't have the password
 
-  const isPasswordMatch = await new Promise((resolve, reject) => {
-    bcrypt.compare(oldPassword, user.password, (err, hash) => {
-      if (err) reject(err)
-      resolve(hash)
-    })
-  })
+  const isPasswordMatch = await compare(oldPassword, user.password)
   if (!isPasswordMatch) return { status: 400, message: 'Invalid current password' }
 
-  const encryptedPassword = await new Promise((resolve, reject) => {
-    bcrypt.hash(newPassword, parseInt(process.env.BCRYPT_SALT_ROUNDS), (err, hash) => {
-      if (err) reject(err)
-      resolve(hash)
-    })
-  })
+  const encryptedPassword = await encrypt(newPassword)
   return await findOneAndUpdateUser({ email: user.email }, { password: encryptedPassword })
 }
 
@@ -86,12 +76,7 @@ export const addNewUser = async (userDetails) => {
 
   if (user?.name === userDetails.name) return { status: 400, message: 'Admin names must be unique' }
 
-  const encryptedPassword = await new Promise((resolve, reject) => {
-    bcrypt.hash(genaratedPassword, parseInt(process.env.BCRYPT_SALT_ROUNDS), (err, hash) => {
-      if (err) reject(err)
-      resolve(hash)
-    })
-  })
+  const encryptedPassword = await encrypt(genaratedPassword)
 
   const newUser = await createUser({
     ...userDetails,

@@ -2,6 +2,7 @@ import asyncHandler from '../middleware/async'
 import { authRegister, authLogin, updateVerificationStatus, authResendVerification, forgotPasswordEmail, resetPasswordFromEmail } from '../services/auth'
 import { makeResponse } from '../utils/response'
 import { sendTokenResponse } from '../utils/jwt'
+
 export const register = asyncHandler(async (req, res) => {
   const result = await authRegister(req.body)
   if (!result) return makeResponse({ res, status: 500, message: 'Registration failed.' })

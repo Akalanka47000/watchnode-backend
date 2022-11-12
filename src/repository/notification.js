@@ -21,7 +21,7 @@ export const fetchNotificationById = (id) => {
 }
 
 export const findNotification = (filters = {}) => {
-  return Notification.find(filters)
+  return Notification.findOne(filters)
 }
 
 export const updateNotificationById = (id, data) => {
