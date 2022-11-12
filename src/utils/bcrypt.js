@@ -10,7 +10,7 @@ export const encrypt = async (password) => {
 }
 
 export const compare = async (password, hash) => {
-    await new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
         bcrypt.compare(password, hash, (err, hash) => {
             if (err) reject(err)
             resolve(hash)
