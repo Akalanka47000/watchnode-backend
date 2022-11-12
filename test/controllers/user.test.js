@@ -23,7 +23,7 @@ jest.mock('handlebars', () => ({
     compile: jest.fn().mockImplementation(() => jest.fn().mockReturnValue('')),
 }));
 
-jest.mock('Bcrypt', () => ({
+jest.mock('bcrypt', () => ({
     hash: jest.fn().mockResolvedValue(''),
     compare: jest.fn().mockResolvedValue(true),
 }));

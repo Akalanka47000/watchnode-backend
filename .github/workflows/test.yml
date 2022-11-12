@@ -12,5 +12,18 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 16
+      - name: Create env file
+        run: |
+          touch .env
+          echo MONGO_URI=${{ secrets.MONGO_URI }} >> .env
+          echo JWT_EXPIRE=${{ secrets.JWT_EXPIRE }} >> .env
+          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
+          echo BCRYPT_SALT_ROUNDS=${{ secrets.BCRYPT_SALT_ROUNDS }} >> .env
+          echo MAIL_HOST=${{ secrets.MAIL_HOST }} >> .env
+          echo MAIL_USER=${{ secrets.MAIL_USER }} >> .env
+          echo MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} >> .env
+          echo APP_DOMAIN=${{ secrets.APP_DOMAIN }} >> .env
+          echo NODE_TLS_REJECT_UNAUTHORIZED=${{ secrets.NODE_TLS_REJECT_UNAUTHORIZED }} >> .env
+          cat .env
       - run: npm install
       - run: npm run test
