@@ -9,14 +9,14 @@ export const uploadUserSchedule = async (userId, file) => {
     oem: 1,
     psm: 11,
   }
-  await tesseract
-    .recognize(file.buffer, config)
-    .then((text) => {
-      console.log('Result:', text.replace(/(^[ \t]*\n)/gm, ''))
-    })
-    .catch((error) => {
-      console.log(error.message)
-    })
+  // await tesseract
+  //   .recognize(file.buffer, config)
+  //   .then((text) => {
+  //     console.log('Result:', text.replace(/(^[ \t]*\n)/gm, ''))
+  //   })
+  //   .catch((error) => {
+  //     console.log(error.message)
+  //   })
   const data = {
     // eslint-disable-next-line no-unused-vars
     events: [1, 2, 3, 4, 5, 6, 7].reduce((acc, curr, index, arr) => {
